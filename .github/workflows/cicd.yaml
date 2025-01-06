@@ -2,8 +2,8 @@ name: Deploy to Cloud Run
 
 env:
   SERVICE_NAME: custom-fastapi-service
-  PROJECT_ID: h-t-d-a-f-a-t-g-c-r
-  DOCKER_IMAGE_URL: us-central1-docker.pkg.dev/h-t-d-a-f-a-t-g-c-r/custom-fastapi/custom-fastapi
+  PROJECT_ID: tlumach
+  DOCKER_IMAGE_URL: europe-north1-docker.pkg.dev/tlumach/tlumach-registry/custom-fastapi
 
 on:
   push:
@@ -38,12 +38,3 @@ jobs:
         run: |
           docker build -t ${{ env.DOCKER_IMAGE_URL }}:latest -f Dockerfile.prod .
           docker push ${{ env.DOCKER_IMAGE_URL }}:latest
-
-      - name: Deploy to Cloud Run
-        run: |
-          echo SERVICE_NAME $SERVICE_NAME
-          gcloud run deploy $SERVICE_NAME \
-            --image ${{ env.DOCKER_IMAGE_URL }}:latest \
-            --platform managed \
-            --region us-east1 \
-            --allow-unauthenticated
